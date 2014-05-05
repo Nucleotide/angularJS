@@ -1,4 +1,4 @@
-angularJS
+Cabangular
 =========
 
-1 week intense angular project
+Single page app, joka toivon mukaan tulee hyödyntämään aiemman Rails -harkkatyön backendia.
