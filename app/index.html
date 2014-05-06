@@ -32,35 +32,50 @@
       </div>
 
       <div class="col-md-4">
-        <h2>Blog entries</h2>
+        <h2>Tarvikkeet</h2>
         <div>
-          <div ng-repeat="entry in entries">
-            <h4>{{entry.info}} by {{entry.id}} </h4>
+          <input placeholder="Hae" class="form-control" ng-model="criteria"></input>
+          <div ng-repeat="entry in entries | filter:criteria | orderBy:'id':true | limitTo:10">
+            <h4>{{entry.subject}} by {{entry.user}} </h4>
 
-            <blockquote>
+            <p>
               {{entry.body}}
-            </blockquote>    
+            </p>    
           </div>
         </div>
       </div>
 
       <div class="col-md-4">
-        <h2>List here some stuff</h2>
-
-          <ul>
-            <li ng-repeat="thing in awesomeThings">
-              {{thing}}     
-            </li>
-          </ul>
+        <h2>Puutteet</h2>
       </div>
 
       <div class="col-md-4">
-      <h2>Column 3</h2>
+        <h2>Luo uusi</h2>
+
+        <a class="btn btn-primary" ng-click="formVisible = !formVisible" ng-hide="formVisible">Tarvike</a>
+
+        <form ng-show="formVisible" role="form">
+          <div class="form-group">
+            <input class="form-control" type="text" ng-model="blog.user" placeholder="your name"></input>  
+          </div>    
+          <div class="form-group">
+            <input class="form-control" type="text" ng-model="blog.subject" placeholder="subject"></input>  
+          </div>   
+          <div class="form-group">  
+            <textarea class="form-control" rows="3" ng-model="blog.body" placeholder="content"></textarea>
+          </div>
+          <button class="btn btn-primary" ng-click="createBlog()">Luo</button>
+          <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
+        </form>
+
+        <div ng-show="flash" class="alert alert-success">
+          {{flash}}
+          <span style="float:right" ng-click="flash=null" class="glyphicon glyphicon-remove-sign"></span>
+        </div>
       </div>
 
       <div class="navbar navbar-fixed-bottom">
         <div class="container">
-          <p>Mustavalkoinen värimaailma ei ole kovin kiva</p>
         </div>
       </div>
 

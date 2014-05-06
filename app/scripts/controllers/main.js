@@ -2,15 +2,40 @@
 
 var app = angular.module('frontendApp');
 
-app.controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+app.factory('Blogs', function($http){
+    var URL = 'https://ng-project-backend.herokuapp.com/api/blogs.json';
 
-    $http.get('http://cabinmaster.herokuapp.com/needs.json').success( function(data, status, headers, config) {
-        console.log(data);
+    var blogsService = {};
+
+    blogsService.all = function(){
+        return $http.get(URL);
+      };
+
+    blogsService.create = function(data){
+        console.log('called');
+        return $http.post(URL, data);
+      };
+
+    return blogsService;
+
+  });
+
+
+app.controller('MainCtrl', function ($scope, Blogs) {
+    
+    $scope.formVisible = false;
+
+    Blogs.all().success( function(data, status, headers, config) {
         $scope.entries = data;
-			});
-	});
+      });
+
+    $scope.createBlog = function() {
+        Blogs.create($scope.blog).success(function(data, status, headers, config) {
+          $scope.entries.push(data);
+        });
+
+        $scope.flash = 'Luonti ' +$scope.blog.subject+ ' onnistui!';
+        $scope.formVisible = false;
+        $scope.blog = {};
+      };
+  });

@@ -28,6 +28,15 @@ body {
   background: #3D59AB;
 }
 
+.btn-primary, .btn-primary:active, .btn-primary:hover, .btn-primary:focus {
+  background-color: black;
+  border-color: black;
+}
+.btn-danger, .btn-danger:active, .btn-danger:hover, .btn-danger:focus {
+  background-color: white;
+  border-color: black;
+  color: black;
+}
 /* Custom page footer */
 .navbar-fixed-bottom {
   color: white;
@@ -42,6 +51,11 @@ body {
 }
 .col-md-4 {
   margin-top: 100px;
+}
+
+.form-control {
+  border: black;
+  color: black;
 }
 
 /* Customize container */
