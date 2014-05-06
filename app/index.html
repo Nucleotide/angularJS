@@ -25,16 +25,13 @@
 
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="MainCtrl">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Home</a></li>
-          <li><a ng-href="#">About</a></li>
-          <li><a ng-href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">Cabangular</h3>
+      <div class="navbar navbar-fixed-top">
+        <div class="container">
+          <h3 class="text-muted">Cabangular</h3>
+        </div>
       </div>
 
-      <div class="jumbotron">
+      <div class="col-md-4">
         <h2>Blog entries</h2>
         <div>
           <div ng-repeat="entry in entries">
@@ -47,7 +44,7 @@
         </div>
       </div>
 
-      <div>
+      <div class="col-md-4">
         <h2>List here some stuff</h2>
 
           <ul>
@@ -57,8 +54,14 @@
           </ul>
       </div>
 
-      <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+      <div class="col-md-4">
+      <h2>Column 3</h2>
+      </div>
+
+      <div class="navbar navbar-fixed-bottom">
+        <div class="container">
+          <p>Mustavalkoinen värimaailma ei ole kovin kiva</p>
+        </div>
       </div>
 
     <!--[if lt IE 9]>

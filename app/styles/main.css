@@ -2,6 +2,9 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  background: url('http://www.cs.helsinki.fi/u/laxlax/hehe.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -22,19 +25,29 @@ body {
   margin-bottom: 0;
   line-height: 40px;
   padding-bottom: 19px;
+  background: #3D59AB;
 }
 
 /* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+.navbar-fixed-bottom {
+  color: white;
+  border-top: 1px solid white;
+  background: black;
+}
+
+.navbar-fixed-top {
+  color: white;
+  border-top: 1px solid white;
+  background: black;
+}
+.col-md-4 {
+  margin-top: 100px;
 }
 
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 830px;
   }
 }
 .container-narrow > hr {
