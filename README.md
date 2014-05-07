@@ -3,7 +3,7 @@ Cabangular
 
 Yksinkertainen esimerkkisovellusta mukaileva tehtävälista.
 ###Rails backend
-TBA
+https://github.com/Nucleotide/angularBackend
 
 ###Heroku
 http://cabangular.herokuapp.com/

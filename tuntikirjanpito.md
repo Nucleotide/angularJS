@@ -13,3 +13,4 @@
 ####2h Authentication
 ####1h oman rails backendin puukotusta
 ####1,5h css - säätöä, auth localhostiin - teen nopsaa uuden backendin seuraavaksi, ei jaksa puukottaa toimivaa :) 
+####2,5h Backend tehtävä/muisti-listalle, lokaalit create, del, login, huomenna backend herokuun

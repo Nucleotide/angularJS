@@ -30,26 +30,26 @@
       </div>
 
       <div class="col-md-8">
-        <h2>Tarvikkeet</h2>
+        <h2>Tehtävälista</h2>
         <div>
           <input placeholder="Hae listalta" class="form-control" ng-model="criteria"></input>
-          <div ng-repeat="reminder in reminders | filter:criteria | orderBy:id:true | limitTo:25">
-            <h4>{{reminder.id}} </h4>
+          <div ng-repeat="reminder in reminders | filter:criteria | orderBy:'priority':true | limitTo:10">
+            <h4>{{reminder.name}}, tärkeys {{reminder.priority}} </h4>
             <span 
               style="float:right" 
-              ng-click="deleteReminder(entry)" 
+              ng-click="deleteReminder(reminder)" 
               class="glyphicon glyphicon-trash">
             </span>
 
             <p>
-              {{reminder.info}}
+              {{reminder.description}}
             </p>    
           </div>
         </div>
       </div>
 
       <div class="col-md-4">
-        <h2>Kirjautuminen</h2>
+        <h2>Työkalut</h2>
 
         <form ng-hide="loggedIn.status" ng-submit="login()">
           <div class="form-group">
@@ -58,12 +58,12 @@
           <div class="form-group">
             <input class="form-control" type="text" ng-model="credentials.password" placeholder="password"/></input>
           </div>
-          <button class="btn btn-danger">login</button>
+          <button class="btn btn-danger">Kirjaudu</button>
           </form>
 
-          <form class="nav nav-pills pull-right" ng-show="loggedIn.status">
+          <form class="form-group" ng-show="loggedIn.status">
             {{loggedIn.name}} 
-            <button class="btn btn-danger" ng-click="logout()">logout</button>
+            <button class="btn btn-danger" ng-click="logout()">Kirjaudu ulos</button>
           </form>
 
           <br>
@@ -71,16 +71,23 @@
 
           <form ng-show="formVisible" role="form">
             <div class="form-group">
-              <textarea class="form-control" rows="3" ng-model="reminder.info" placeholder="content"></textarea>
+              <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
             </div>
-            <button class="btn btn-primary" ng-click="createNeed()">Luo</button>
+            <div class="form-group">
+              <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys"/></input> 
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
+            </div>
+            <input type="hidden" ng-model="reminder.user_id" ng-value="1"></input>
+            <button class="btn btn-primary" ng-click="createReminder()">Lisää tehtävä</button>
             <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
           </form>
 
           <div ng-show="flash" class="alert alert-success">
             {{flash}}
           <span style="float:right" ng-click="flash=null" class="glyphicon glyphicon-remove-sign"></span>
-        </div>
+          </div>
       </div>
 
       <!-- <div class="navbar navbar-fixed-bottom">

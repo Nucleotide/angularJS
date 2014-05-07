@@ -3,7 +3,7 @@
 var app = angular.module('reminderApp');
 
 app.factory('Reminders', function($http){
-    var URL_BASE = 'http://localhost:3000/needs';
+    var URL_BASE = 'http://localhost:3000/reminders';
 
     var remindersService = {};
 
@@ -93,10 +93,11 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth) {
         $scope.reminder = {};
       };
 
-    $scope.deleteNeed = function(reminder) {
+    $scope.deleteReminder = function(reminder) {
         Reminders.delete(reminder).success(function(){
           var index = $scope.reminders.indexOf(reminder);
           $scope.reminders.splice(index, 1);
+          $scope.flash = 'Poisto onnistui!';
         });
       };
 
