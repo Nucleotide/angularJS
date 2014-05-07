@@ -25,9 +25,18 @@
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="MainCtrl">
       <div class="navbar navbar-fixed-top">
-        <div class="container">
           <h3 class="text-muted">Cabangular</h3>
-        </div>
+        
+          <form class="nav nav-pills pull-right" ng-hide="loggedIn.status" ng-submit="login()">
+            <input ng-model="credentials.user" placeholder="username"/>
+            <input ng-model="credentials.password" placeholder="password"/>
+          <button class="btn btn-danger">login</button>
+          </form>
+
+          <form ng-show="loggedIn.status">
+            {{loggedIn.user}} 
+            <button ng-click="logout()">logout</button>
+          </form>
       </div>
 
       <div class="col-md-4">
@@ -36,6 +45,11 @@
           <input placeholder="Hae" class="form-control" ng-model="criteria"></input>
           <div ng-repeat="entry in entries | filter:criteria | orderBy:'id':true | limitTo:10">
             <h4>{{entry.subject}} by {{entry.user}} </h4>
+            <span 
+              style="float:right" 
+              ng-click="deleteBlog(entry)" 
+              class="glyphicon glyphicon-trash">
+            </span>
 
             <p>
               {{entry.body}}
@@ -73,10 +87,10 @@
         </div>
       </div>
 
-      <div class="navbar navbar-fixed-bottom">
+      <!-- <div class="navbar navbar-fixed-bottom">
         <div class="container">
         </div>
-      </div>
+      </div> -->
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
