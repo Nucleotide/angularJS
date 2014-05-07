@@ -8,3 +8,8 @@
 ####2h esimerkkisovelluksen totetutusta ja koodiin perehtymistä
 ####1h layoutin kanssa säätöä
 ####1,5h css säätöä ja taustakuva, vähän buginen.. angular auth tutustumista rails backendin kanssa, pusku herokuu
+
+##Keskiviikko 7.5.
+####2h Authentication
+####1h oman rails backendin puukotusta
+####1,5h css - säätöä, auth localhostiin - teen nopsaa uuden backendin seuraavaksi, ei jaksa puukottaa toimivaa :) 

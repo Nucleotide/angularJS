@@ -17,24 +17,20 @@ body {
   padding-right: 15px;
 }
 
-.pull-right {
-  margin-top: -45px;
-  margin-right: 150px;
-}
-
 /* Custom page header */
 .header {
   border-bottom: 1px solid gray;
 }
-/* Make the masthead heading the same height as the navigation */
-.text-muted{
-  margin-top: 15px;
-  line-height: 40px;
-  background: black;
-  margin-left: 150px;
-}
 
-.col-md-4 {
+.text-muted{
+    margin-top: 15px;
+    line-height: 40px;
+    background: black;
+    text-align: center;
+  }
+/* Make the masthead heading the same height as the navigation */
+
+.col-md-4, .col-md-8 {
   margin-top: 75px;
   height: 100%;
 }
@@ -68,7 +64,7 @@ body {
 }
 
 /* Customize container */
-@media (min-width: 830px) {
+@media (min-width: 650px) {
   .container {
     max-width: 900px;
   }
@@ -77,34 +73,18 @@ body {
 
 
 /* Responsive: Portrait tablets and up */
-@media (max-width: 831px) {
+@media (max-width: 651px) {
   /* Remove the padding we set earlier */
-  .navbar-fixed-top {
-    color: white;
-    height: 150px;
-    border-top: 1px solid white;
-    background: black;
-    border-top: 1px solid gray;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-    width: 100%;
-  }
-  .col-md-4 {
-    margin-top: 150px;
+
+  .col-md-4, .col-md-8 {
+    margin-top: 80px;
     height: 100%;
   }
 
-  .pull-right {
-  margin-top: 5px;
-  float: left !important;
-}
   .text-muted{
     margin-top: 15px;
     line-height: 40px;
     background: black;
-    margin-left: -5px;
   }
 
 }

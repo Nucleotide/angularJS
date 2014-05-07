@@ -1,32 +1,32 @@
 'use strict';
 
-var app = angular.module('frontendApp');
+var app = angular.module('reminderApp');
 
-app.factory('Blogs', function($http){
-    var URL_BASE = 'https://ng-project-backend.herokuapp.com/api/blogs';
+app.factory('Reminders', function($http){
+    var URL_BASE = 'http://localhost:3000/needs';
 
-    var blogsService = {};
+    var remindersService = {};
 
-    blogsService.all = function(){
+    remindersService.all = function(){
         return $http.get(URL_BASE+'.json');
       };
 
-    blogsService.create = function(data){
-        console.log('called');
+    remindersService.create = function(data){
+        console.log(data);
         return $http.post(URL_BASE+'.json', data);
       };
 
-    blogsService.delete = function(data){
+    remindersService.delete = function(data){
         return $http.delete(URL_BASE+'/'+data.id+'.json', data);
       };
 
-    return blogsService;
+    return remindersService;
 
   });
 
 
 app.factory('Auth', function($http){
-    var URL = 'http://ng-project-backend.herokuapp.com/session';
+    var URL = 'http://localhost:3000/session';
     var service = {};
 
     service.logged = {};
@@ -57,7 +57,7 @@ app.factory('Auth', function($http){
   });
 
 
-app.controller('MainCtrl', function ($scope, Blogs, Auth) {
+app.controller('MainCtrl', function ($scope, Reminders, Auth) {
     $scope.loggedIn = Auth.logged;
 
     $scope.logout = function() {
@@ -69,8 +69,8 @@ app.controller('MainCtrl', function ($scope, Blogs, Auth) {
         .then(
         function(data) {
           console.log(data);
-        },function( data ) {
-          // failure
+        },function(data) {
+          console.log(data);
         }
       );
         $scope.credentials = {};
@@ -78,25 +78,25 @@ app.controller('MainCtrl', function ($scope, Blogs, Auth) {
 
     $scope.formVisible = false;
 
-    Blogs.all().success( function(data, status, headers, config) {
-        $scope.entries = data;
+    Reminders.all().success( function(data, status, headers, config) {
+        $scope.reminders = data;
         console.log(data);
       });
 
-    $scope.createBlog = function() {
-        Blogs.create($scope.blog).success(function(data, status, headers, config) {
-          $scope.entries.push(data);
+    $scope.createReminder = function() {
+        Reminders.create($scope.reminder).success(function(data, status, headers, config) {
+          $scope.reminders.push(data);
         });
 
-        $scope.flash = 'Luonti ' +$scope.blog.subject+ ' onnistui!';
+        $scope.flash = 'Luonti onnistui!';
         $scope.formVisible = false;
-        $scope.blog = {};
+        $scope.reminder = {};
       };
 
-    $scope.deleteBlog = function(entry) {
-        Blogs.delete(entry).success(function(){
-          var index = $scope.entries.indexOf(entry);
-          $scope.entries.splice(index, 1);
+    $scope.deleteNeed = function(reminder) {
+        Reminders.delete(reminder).success(function(){
+          var index = $scope.reminders.indexOf(reminder);
+          $scope.reminders.splice(index, 1);
         });
       };
 

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="frontendApp">
+  <body ng-app="reminderApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -27,62 +27,58 @@
       <div class="navbar navbar-fixed-top">
           <h3 class="text-muted">Cabangular</h3>
         
-          <form class="nav nav-pills pull-right" ng-hide="loggedIn.status" ng-submit="login()">
-            <input ng-model="credentials.user" placeholder="username"/>
-            <input ng-model="credentials.password" placeholder="password"/>
-          <button class="btn btn-danger">login</button>
-          </form>
-
-          <form ng-show="loggedIn.status">
-            {{loggedIn.user}} 
-            <button ng-click="logout()">logout</button>
-          </form>
       </div>
 
-      <div class="col-md-4">
+      <div class="col-md-8">
         <h2>Tarvikkeet</h2>
         <div>
-          <input placeholder="Hae" class="form-control" ng-model="criteria"></input>
-          <div ng-repeat="entry in entries | filter:criteria | orderBy:'id':true | limitTo:10">
-            <h4>{{entry.subject}} by {{entry.user}} </h4>
+          <input placeholder="Hae listalta" class="form-control" ng-model="criteria"></input>
+          <div ng-repeat="reminder in reminders | filter:criteria | orderBy:id:true | limitTo:25">
+            <h4>{{reminder.id}} </h4>
             <span 
               style="float:right" 
-              ng-click="deleteBlog(entry)" 
+              ng-click="deleteReminder(entry)" 
               class="glyphicon glyphicon-trash">
             </span>
 
             <p>
-              {{entry.body}}
+              {{reminder.info}}
             </p>    
           </div>
         </div>
       </div>
 
       <div class="col-md-4">
-        <h2>Puutteet</h2>
-      </div>
+        <h2>Kirjautuminen</h2>
 
-      <div class="col-md-4">
-        <h2>Luo uusi</h2>
-
-        <a class="btn btn-primary" ng-click="formVisible = !formVisible" ng-hide="formVisible">Tarvike</a>
-
-        <form ng-show="formVisible" role="form">
+        <form ng-hide="loggedIn.status" ng-submit="login()">
           <div class="form-group">
-            <input class="form-control" type="text" ng-model="blog.user" placeholder="your name"></input>  
-          </div>    
-          <div class="form-group">
-            <input class="form-control" type="text" ng-model="blog.subject" placeholder="subject"></input>  
-          </div>   
-          <div class="form-group">  
-            <textarea class="form-control" rows="3" ng-model="blog.body" placeholder="content"></textarea>
+            <input class="form-control" type="text" ng-model="credentials.user" placeholder="username"/></input> 
           </div>
-          <button class="btn btn-primary" ng-click="createBlog()">Luo</button>
-          <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
-        </form>
+          <div class="form-group">
+            <input class="form-control" type="text" ng-model="credentials.password" placeholder="password"/></input>
+          </div>
+          <button class="btn btn-danger">login</button>
+          </form>
 
-        <div ng-show="flash" class="alert alert-success">
-          {{flash}}
+          <form class="nav nav-pills pull-right" ng-show="loggedIn.status">
+            {{loggedIn.name}} 
+            <button class="btn btn-danger" ng-click="logout()">logout</button>
+          </form>
+
+          <br>
+          <a class="btn btn-primary" ng-click="formVisible = !formVisible" ng-hide="formVisible">Lisää tehtävä listalle</a>
+
+          <form ng-show="formVisible" role="form">
+            <div class="form-group">
+              <textarea class="form-control" rows="3" ng-model="reminder.info" placeholder="content"></textarea>
+            </div>
+            <button class="btn btn-primary" ng-click="createNeed()">Luo</button>
+            <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
+          </form>
+
+          <div ng-show="flash" class="alert alert-success">
+            {{flash}}
           <span style="float:right" ng-click="flash=null" class="glyphicon glyphicon-remove-sign"></span>
         </div>
       </div>

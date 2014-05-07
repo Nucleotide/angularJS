@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('frontendApp', []);
+var app = angular.module('reminderApp', []);
 
 app.config(function($httpProvider) {
     $httpProvider.defaults.useXDomain = true;
