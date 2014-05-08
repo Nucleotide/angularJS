@@ -25,16 +25,22 @@
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="MainCtrl">
       <div class="navbar navbar-fixed-top">
-          <h3 class="text-muted">Cabangular</h3>
-        
+          <h3 class="text-muted">Cabangular</h3>        
       </div>
 
       <div class="col-md-8">
+        <flash message='flash' type='success'></flash>
         <h2>Tehtävälista</h2>
         <div>
           <input placeholder="Hae listalta" class="form-control" ng-model="criteria"></input>
           <div ng-repeat="reminder in reminders | filter:criteria | orderBy:'priority':true | limitTo:10">
             <h4>{{reminder.name}}, tärkeys {{reminder.priority}} </h4>
+            
+            <span 
+              style="float:right" 
+              ng-click="editReminder(reminder)" 
+              class="glyphicon glyphicon-edit">
+            </span>
             <span 
               style="float:right" 
               ng-click="deleteReminder(reminder)" 
@@ -51,49 +57,67 @@
       <div class="col-md-4">
         <h2>Työkalut</h2>
 
-        <form ng-hide="loggedIn.status" ng-submit="login()">
+        <form class="form-group" ng-hide="loggedIn.status">
+          <a class="btn btn-primary" ng-click="loginVisible = !loginVisible" ng-hide="loginVisible">Kirjaudu</a>
+          <a class="btn btn-primary" ng-click="registrationVisible = !rregistrationVisible" ng-hide="registrationVisible">Rekisteröidy</a>
+        </form>      
+
+        <form ng-show="loginVisible" role="form">
           <div class="form-group">
-            <input class="form-control" type="text" ng-model="credentials.user" placeholder="username"/></input> 
+            <input class="form-control" type="text" ng-model="credentials.user" placeholder="Käyttäjätunnus"/></input> 
           </div>
           <div class="form-group">
-            <input class="form-control" type="text" ng-model="credentials.password" placeholder="password"/></input>
+            <input class="form-control" type="password" ng-model="credentials.password" placeholder="Salasana"/></input>
           </div>
-          <button class="btn btn-danger">Kirjaudu</button>
-          </form>
+          <button class="btn btn-primary" ng-click="login()">Kirjaudu</button>
+          <button class="btn btn-danger" ng-click="loginVisible=!loginVisible">Peruuta</button>
+        </form>
 
-          <form class="form-group" ng-show="loggedIn.status">
-            {{loggedIn.name}} 
-            <button class="btn btn-danger" ng-click="logout()">Kirjaudu ulos</button>
-          </form>
+        <br>
 
-          <br>
-          <a class="btn btn-primary" ng-click="formVisible = !formVisible" ng-hide="formVisible">Lisää tehtävä listalle</a>
-
-          <form ng-show="formVisible" role="form">
-            <div class="form-group">
-              <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
-            </div>
-            <div class="form-group">
-              <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys"/></input> 
-            </div>
-            <div class="form-group">
-              <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
-            </div>
-            <input type="hidden" ng-model="reminder.user_id" ng-value="1"></input>
-            <button class="btn btn-primary" ng-click="createReminder()">Lisää tehtävä</button>
-            <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
-          </form>
-
-          <div ng-show="flash" class="alert alert-success">
-            {{flash}}
-          <span style="float:right" ng-click="flash=null" class="glyphicon glyphicon-remove-sign"></span>
+        <form ng-show="registrationVisible" role="form">
+          <div class="form-group">
+            <input class="form-control" type="text" ng-model="details.user" placeholder="Käyttäjätunnus"/></input> 
           </div>
+          <div class="form-group">
+            <input class="form-control" type="password" ng-model="details.password" placeholder="Salasana"/></input>
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="password" ng-model="details.password_confirmation" placeholder="Salasana uudestaan"/></input>
+          </div>
+          <button class="btn btn-primary" ng-click="register()">Rekisteröidy</button>
+          <button class="btn btn-danger" ng-click="registrationVisible=!registrationVisible">Peruuta</button>
+        </form>
+
+        <br>
+
+        <a class="btn btn-primary" ng-click="formVisible = !formVisible" ng-hide="formVisible">Lisää tehtävä listalle</a>
+
+        <br>
+
+        <form ng-show="formVisible" role="form">
+          <div class="form-group">
+            <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)"/></input> 
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
+          </div>
+          <input type="hidden" ng-model="reminder.user_id" ng-value="1"></input>
+          <button class="btn btn-primary" ng-click="createReminder()">Lisää tehtävä</button>
+          <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
+        </form>
+
+        <br>
+
+        <form class="form-group" ng-show="loggedIn.status">
+          {{loggedIn.user}} 
+          <button class="btn btn-danger" ng-click="logout()">Kirjaudu ulos</button>
+        </form>
+        
       </div>
-
-      <!-- <div class="navbar navbar-fixed-bottom">
-        <div class="container">
-        </div>
-      </div> -->
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -108,9 +132,9 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <!-- endbuild -->
-</body>
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <!-- endbuild -->
+  </body>
 </html>

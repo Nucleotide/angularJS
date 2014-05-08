@@ -22,6 +22,21 @@ body {
   border-bottom: 1px solid gray;
 }
 
+.alert {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px;
+  border-color: #000080;
+  border-radius: 4px;
+  background-color: #000080;
+  color: white; 
+}
+
+.glyphicon {
+  padding-right: 7px;
+}
+
 .text-muted{
     margin-top: 15px;
     line-height: 40px;
