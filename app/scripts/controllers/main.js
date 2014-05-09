@@ -3,6 +3,7 @@
 var app = angular.module('reminderApp');
 
 var host = 'http://limitless-mesa-4659.herokuapp.com';
+//var host = 'http://localhost:3000';
 
 app.directive('flash', function() {
   return {
@@ -38,8 +39,8 @@ app.factory('Reminders', function($http){
         return $http.delete(URL_BASE+'/'+data.id+'.json', data);
       };
 
-    remindersService.edit = function(data){
-      return $http.post(URL_BASE+'/'+data.id+'.json', data);
+    remindersService.save = function(data){
+      return $http.put(URL_BASE+'/'+data.id+'.json', data);
     };
 
     return remindersService;
@@ -96,8 +97,20 @@ app.factory('Auth', function($http){
 
 
 app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
-    $scope.loginVisible =false;
+
+    $scope.loginVisible =true;
+    $scope.registrationVisible = false;
     $scope.loggedIn = Auth.logged;
+
+    $scope.loginHide = function() {
+      $scope.loginVisible = !$scope.loginVisible;
+      $scope.registrationVisible = false;
+    };
+
+    $scope.registrationHide = function() {
+      $scope.loginVisible = false;
+      $scope.registrationVisible = !$scope.registrationVisible;
+    };
 
     $scope.logout = function() {
         Auth.logout();
@@ -105,12 +118,14 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
       };
 
     $scope.login = function(){
+        console.log($scope.credentials);
         Auth.login($scope.credentials)
         .then(
         function(data) {
           console.log(data);
           $scope.flash = 'Kirjautuminen onnistui!';
           $scope.loginVisible =false;
+          $scope.registrationVisible = false;
         },function(data) {
           $scope.flash = 'Kirjautumisessa häikkää, uutta matoa koukkuun..';
           console.log(data);
@@ -119,20 +134,22 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
         $scope.credentials = {};
       };
 
-    $scope.registrationVisible = false;
-
     Reminders.all().success( function(data, status, headers, config) {
         $scope.registrations = data;
       });
 
     $scope.register = function(){
-        Registration.register($scope.details).success(function(data, status, headers, config) {
+        Registration.register($scope.details).then(
+        function(data, status, headers, config) {
           $scope.registrations.push(data);
           console.log(data);
-        });
-
-        $scope.flash = 'Rekisteröinti onnistui, nyt voit kirjautua sisään.';
-        $scope.registrationVisible =false;
+          $scope.flash = 'Rekisteröinti onnistui, nyt voit kirjautua sisään.';
+          $scope.registrationVisible =false;
+        },function(data) {
+          $scope.flash = 'Ei onnistunut';
+          console.log(data);
+        }
+      );
         $scope.details = {};
       };
 
@@ -140,6 +157,7 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
 
     Reminders.all().success( function(data, status, headers, config) {
         $scope.reminders = data;
+        console.log(data);
       });
 
     $scope.createReminder = function() {
@@ -161,9 +179,11 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
         });
       };
 
-    $scope.editReminder = function(reminder) {
-        Reminders.edit(reminder).success(function(){
-          console.log('edit clicked');
+    $scope.saveReminder = function(reminder) {
+        Reminders.save(reminder).success(function(data, status, headers, config){
+          console.log(reminder);
+          $scope.reminders.push(data);
+          $scope.flash = 'Muokkaus onnistui!';
         });
       };
 

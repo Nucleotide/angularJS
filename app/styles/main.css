@@ -3,11 +3,10 @@ body {
   background: url('http://www.cs.helsinki.fi/u/laxlax/hehe.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+  color: #25383C;
 }
 
-.container {
-  margin-bottom: 300px;
-}
+
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -18,55 +17,51 @@ body {
 }
 
 /* Custom page header */
-.header {
-  border-bottom: 1px solid gray;
-}
 
 .alert {
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
   border: 1px;
-  border-color: #000080;
+  border-color: #1aa3a3;
   border-radius: 4px;
-  background-color: #000080;
+  background-color: #1aa3a3;
   color: white; 
 }
 
-.glyphicon {
-  padding-right: 7px;
-}
 
 .text-muted{
     margin-top: 15px;
     line-height: 40px;
-    background: black;
+    background: transparent;
     text-align: center;
+    color: black;
+    font-size: 35px; 
   }
 /* Make the masthead heading the same height as the navigation */
 
 .col-md-4, .col-md-8 {
-  margin-top: 75px;
+  margin-top: 35px;
   height: 100%;
+  color: #25383C;
 }
 
 .btn-primary, .btn-primary:active, .btn-primary:hover, .btn-primary:focus {
-  background-color: black;
-  border-color: black;
+  background-color: #00d2ff;
+  border-color: #00d2ff;
+  margin-right: 3px;
 }
 .btn-danger, .btn-danger:active, .btn-danger:hover, .btn-danger:focus {
-  background-color: white;
-  border-color: black;
-  color: black;
+  background-color: #86becb;
+  border-color: #86becb;
+  color: white;
+  margin-left: 3px;
 }
 /* Custom page footer */
 
 .navbar-fixed-top {
   color: white;
   height: 75px;
-  border-top: 1px solid white;
-  background: black;
-  border-top: 1px solid gray;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
@@ -94,12 +89,14 @@ body {
   .col-md-4, .col-md-8 {
     margin-top: 80px;
     height: 100%;
+    color: #25383C;
   }
 
   .text-muted{
     margin-top: 15px;
     line-height: 40px;
-    background: black;
+    background: transparent;
+    color: black;
   }
 
 }

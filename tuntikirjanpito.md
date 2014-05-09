@@ -17,5 +17,12 @@
 
 ##Torstai 8.5.
 ####7h Lomake uuden käyttäjän luontiin, create, edit ja delete requires login for reminder, TAISTELU backendiin luotavan käyttäjän kanssa.., backend herokuun, backendin vaihto helppoa yhdellä muuttujalla,
-lomakkeiden piilotus vielä hieman kesken, flash notice toteutus kuten esimerkkisovelluksessa, tutustumista interceptoreihin. Seuraavaksi edessä interceptien lisäys. Sen lisäksi ng-hidden field ja
-olisi kiva jos flashit menisi piiloon itsestään.
+####lomakkeiden piilotus vielä hieman kesken, flash notice toteutus kuten esimerkkisovelluksessa, tutustumista interceptoreihin. Seuraavaksi edessä interceptien lisäys. Sen lisäksi ng-hidden field ja
+####olisi kiva jos flashit menisi piiloon itsestään.
+
+##Perjantai9.5.
+####1h Hienosäätöä formien piilotuksen kanssa
+####1h layoutin kanssa säätöä
+####5,5h säätöä ja erilaisia kokeiluja interceptorin ja modalien kanssa. $rootscope ei toiminut, hajotti leiskan. bootsrap modalilla sai jotain aikaa mutta ei mitään fiksua.
+####Yleisesti ottaen meni siis iltapäivä erinäiseen säätöön ja opetteluun. Sen lisäksi vielä muokkaustoiminto alulle, täytyy konfata backend ottamaan muutokset vastaan oikein.
+####Tod.näk. viikonloppuna toimivien ominaisuuksien viimeistely sekä lyhyt dokkari.

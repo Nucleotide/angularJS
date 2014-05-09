@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
-    <title>Cabangular</title>
+    <title>Muistilista</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -24,9 +24,9 @@
     <![endif]-->
     <!-- Add your site or application content here -->
     <div class="container" ng-controller="MainCtrl">
-      <div class="navbar navbar-fixed-top">
-          <h3 class="text-muted">Cabangular</h3>        
-      </div>
+      <!-- <div class="navbar navbar-fixed-top">
+          <h3 class="text-muted">Tosi hieno muistilista..</h3>        
+      </div> -->
 
       <div class="col-md-8">
         <flash message='flash' type='success'></flash>
@@ -34,22 +34,27 @@
         <div>
           <input placeholder="Hae listalta" class="form-control" ng-model="criteria"></input>
           <div ng-repeat="reminder in reminders | filter:criteria | orderBy:'priority':true | limitTo:10">
-            <h4>{{reminder.name}}, tärkeys {{reminder.priority}} </h4>
-            
-            <span 
-              style="float:right" 
-              ng-click="editReminder(reminder)" 
-              class="glyphicon glyphicon-edit">
-            </span>
-            <span 
-              style="float:right" 
-              ng-click="deleteReminder(reminder)" 
-              class="glyphicon glyphicon-trash">
-            </span>
+            <h4>Tehtävä: {{reminder.name}}, prioriteetti {{reminder.priority}} </h4>
 
-            <p>
+            <a class="btn btn-danger" ng-show="loggedIn.status" style="float:right" ng-click="deleteReminder(reminder)">Poista</a>
+            
+            <p>Tarkemmat tiedot:<br>
               {{reminder.description}}
-            </p>    
+            </p>
+
+            <form ng-show="infoVisible" role="form">
+              <div class="form-group">
+                <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)"/></input> 
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
+              </div>
+              <button class="btn btn-primary" ng-click="saveReminder(reminder)">Tallenna</button>
+            </form>
+
           </div>
         </div>
       </div>
@@ -58,8 +63,8 @@
         <h2>Työkalut</h2>
 
         <form class="form-group" ng-hide="loggedIn.status">
-          <a class="btn btn-primary" ng-click="loginVisible = !loginVisible" ng-hide="loginVisible">Kirjaudu</a>
-          <a class="btn btn-primary" ng-click="registrationVisible = !rregistrationVisible" ng-hide="registrationVisible">Rekisteröidy</a>
+          <button class="btn btn-primary" ng-click="loginHide()" ng-hide="loginVisible">Kirjaudu</button>
+          <button class="btn btn-primary" ng-click="registrationHide()" ng-hide="registrationVisible">Rekisteröidy</button>
         </form>      
 
         <form ng-show="loginVisible" role="form">
@@ -91,7 +96,18 @@
 
         <br>
 
-        <a class="btn btn-primary" ng-click="formVisible = !formVisible" ng-hide="formVisible">Lisää tehtävä listalle</a>
+        <div ng-show="loggedIn.status">
+          <button class="btn btn-primary" ng-click="formVisible = !formVisible">Lisää tehtävä listalle</button>
+        </div>
+
+        <br>
+
+        <div ng-show="loggedIn.status">
+         <button class="btn btn-primary" ng-click="infoVisible = !infoVisible">Muokkaa tehtäviä</button>
+         <h2>MUOKKAUS ei vielä tallenna kantaan muutoksia..</h2>
+        </div>
+
+        <h3 ng-show="!loggedIn.status">Kirjaudu sisään ja pääset Crudaamaan</h3>
 
         <br>
 
@@ -105,7 +121,6 @@
           <div class="form-group">
             <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
           </div>
-          <input type="hidden" ng-model="reminder.user_id" ng-value="1"></input>
           <button class="btn btn-primary" ng-click="createReminder()">Lisää tehtävä</button>
           <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
         </form>
@@ -113,11 +128,11 @@
         <br>
 
         <form class="form-group" ng-show="loggedIn.status">
-          {{loggedIn.user}} 
           <button class="btn btn-danger" ng-click="logout()">Kirjaudu ulos</button>
         </form>
         
       </div>
+
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -129,6 +144,7 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
