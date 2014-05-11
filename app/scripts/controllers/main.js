@@ -142,7 +142,7 @@ app.factory('Auth', function($http){
     return service;
   });
 
-
+app.controller('ModalInstanceCtrl', 'ModalInstanceCtrl');
 app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
 
     $scope.loginVisible =true;
