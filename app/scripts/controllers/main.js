@@ -17,7 +17,7 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
   };
 });
 
-var ModalDemoCtrl = function ($scope, $modal) {
+app.controller('ModalDemoCtrl', function ($scope, $modal) {
 
   $scope.open = function (size) {
 
@@ -30,7 +30,7 @@ var ModalDemoCtrl = function ($scope, $modal) {
     });
 
   };
-};
+});
 
 
 app.directive('flash', function() {
