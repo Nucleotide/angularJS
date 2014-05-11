@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('reminderApp', ['ui.bootstrap', 'ngCookies']);
+var app = angular.module('reminderApp', ['ui.bootstrap']);
 
 app.config(function($httpProvider) {
     $httpProvider.defaults.useXDomain = true;

@@ -21,23 +21,6 @@ var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
   };
 };
 
-app.directive('flash', function() {
-  return {
-      restrict: 'AE',
-      scope: {
-        message: '='
-      },
-      templateUrl: 'views/flash.html',
-      link: function(scope, elem, attrs) {
-        if ( attrs.type!==undefined) {
-          elem.addClass('alert-'+attrs.type);
-        } else {
-          elem.addClass('alert-success');
-        }
-      }
-    };
-});
-
 var ModalDemoCtrl = function ($scope, $modal, $log) {
 
   $scope.items = ['item1', 'item2', 'item3'];
@@ -62,6 +45,23 @@ var ModalDemoCtrl = function ($scope, $modal, $log) {
     });
   };
 };
+
+app.directive('flash', function() {
+  return {
+      restrict: 'AE',
+      scope: {
+        message: '='
+      },
+      templateUrl: 'views/flash.html',
+      link: function(scope, elem, attrs) {
+        if ( attrs.type!==undefined) {
+          elem.addClass('alert-'+attrs.type);
+        } else {
+          elem.addClass('alert-success');
+        }
+      }
+    };
+});
 
 
 app.factory('Reminders', function($http){
