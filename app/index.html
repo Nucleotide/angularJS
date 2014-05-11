@@ -33,28 +33,49 @@
         <h2>Tehtävälista</h2>
         <div>
           <input placeholder="Hae listalta" class="form-control" ng-model="criteria"></input>
-          <div ng-repeat="reminder in reminders | filter:criteria | orderBy:'priority':true | limitTo:10">
-            <h4>Tehtävä: {{reminder.name}}, prioriteetti {{reminder.priority}} </h4>
-
-            <a class="btn btn-danger" ng-show="loggedIn.status" style="float:right" ng-click="deleteReminder(reminder)">Poista</a>
+          <div ng-show="activeReminders">
+            <h3>Hoida nämä</h3>
+          </div>
+          <div ng-repeat="reminder in reminders | filter:criteria | orderBy:'priority':true" ng-show="activeReminders">
+            <div ng-if="!reminder.completed">
+              <h4>Tehtävä: {{reminder.name}}, prioriteetti {{reminder.priority}} </h4>
             
-            <p>Tarkemmat tiedot:<br>
-              {{reminder.description}}
-            </p>
+            <a class="btn btn-danger" ng-show="loggedIn.status" style="float:right" ng-click="deleteReminder(reminder)">Poista</a>
+            <a class="btn btn-primary" ng-show="loggedIn.status" style="float:right" ng-click="completeReminder(reminder)">Hoidettu</a>
+            
+              <p>Tarkemmat tiedot:<br>
+                {{reminder.description}}
+              </p>
+            
 
-            <form ng-show="infoVisible" role="form">
-              <div class="form-group">
-                <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
-              </div>
-              <div class="form-group">
-                <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)"/></input> 
-              </div>
-              <div class="form-group">
-                <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
-              </div>
-              <button class="btn btn-primary" ng-click="saveReminder(reminder)">Tallenna</button>
-            </form>
+              <form ng-show="infoVisible" role="form">
+                <div class="form-group">
+                  <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
+                </div>
+                <div class="form-group">
+                  <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)"/></input> 
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
+                </div>
+                <button class="btn btn-primary" ng-click="saveReminder(reminder)">Tallenna muutokset</button>
+              </form>
+            </div>
 
+          </div>
+          <div ng-hide="activeReminders">
+            <h3>Hoidetut</h3>
+          </div>
+          <div ng-repeat="reminder in reminders | filter:criteria | orderBy:'priority':true" ng-hide="activeReminders">
+            <div ng-if="reminder.completed">
+              <h4>Tehtävä: {{reminder.name}}, prioriteetti {{reminder.priority}} </h4>
+            
+            
+              <p>Tarkemmat tiedot:<br>
+                {{reminder.description}}
+              </p>
+
+            </div>
           </div>
         </div>
       </div>
@@ -97,19 +118,19 @@
         <br>
 
         <div ng-show="loggedIn.status">
-          <button class="btn btn-primary" ng-click="formVisible = !formVisible">Lisää tehtävä listalle</button>
+         <button class="btn btn-primary" ng-click="activeReminders = !activeReminders">Näytä hoidetut / keskeneräiset</button>
         </div>
 
         <br>
 
         <div ng-show="loggedIn.status">
-         <button class="btn btn-primary" ng-click="infoVisible = !infoVisible">Muokkaa tehtäviä</button>
-         <h2>MUOKKAUS ei vielä tallenna kantaan muutoksia..</h2>
+          <button class="btn btn-primary" ng-click="formVisible = !formVisible">Lisää tehtävä listalle</button>
         </div>
+
+        <br>
 
         <h3 ng-show="!loggedIn.status">Kirjaudu sisään ja pääset Crudaamaan</h3>
 
-        <br>
 
         <form ng-show="formVisible" role="form">
           <div class="form-group">
@@ -124,6 +145,14 @@
           <button class="btn btn-primary" ng-click="createReminder()">Lisää tehtävä</button>
           <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
         </form>
+
+        <br>
+
+        <div ng-show="loggedIn.status">
+          <div ng-hide="!activeReminders">
+            <button class="btn btn-primary" ng-click="infoVisible = !infoVisible">Muokkaa tehtäviä</button>
+          </div>
+        </div>
 
         <br>
 

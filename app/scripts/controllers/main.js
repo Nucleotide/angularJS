@@ -100,6 +100,7 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
 
     $scope.loginVisible =true;
     $scope.registrationVisible = false;
+    $scope.activeReminders = true;
     $scope.loggedIn = Auth.logged;
 
     $scope.loginHide = function() {
