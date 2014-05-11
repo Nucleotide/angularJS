@@ -5,46 +5,33 @@ var app = angular.module('reminderApp');
 var host = 'http://limitless-mesa-4659.herokuapp.com';
 //var host = 'http://localhost:3000';
 
-var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
 
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
 
   $scope.ok = function () {
-    $modalInstance.close($scope.selected.item);
+    $modalInstance.close();
   };
 
   $scope.cancel = function () {
     $modalInstance.dismiss('cancel');
   };
-};
+});
 
-var ModalDemoCtrl = function ($scope, $modal, $log) {
-
-  $scope.items = ['item1', 'item2', 'item3'];
+var ModalDemoCtrl = function ($scope, $modal) {
 
   $scope.open = function (size) {
 
     var modalInstance = $modal.open({
       templateUrl: 'myModalContent.html',
-      controller: ModalInstanceCtrl,
+      controller: 'ModalInstanceCtrl',
       size: size,
       resolve: {
-        items: function () {
-          return $scope.items;
-        }
       }
     });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
   };
 };
+
 
 app.directive('flash', function() {
   return {
@@ -142,7 +129,6 @@ app.factory('Auth', function($http){
     return service;
   });
 
-app.controller('ModalInstanceCtrl', 'ModalInstanceCtrl');
 app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
 
     $scope.loginVisible =true;
