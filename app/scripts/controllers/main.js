@@ -5,6 +5,22 @@ var app = angular.module('reminderApp');
 var host = 'http://limitless-mesa-4659.herokuapp.com';
 //var host = 'http://localhost:3000';
 
+var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+};
+
 app.directive('flash', function() {
   return {
       restrict: 'AE',
@@ -21,6 +37,32 @@ app.directive('flash', function() {
       }
     };
 });
+
+var ModalDemoCtrl = function ($scope, $modal, $log) {
+
+  $scope.items = ['item1', 'item2', 'item3'];
+
+  $scope.open = function (size) {
+
+    var modalInstance = $modal.open({
+      templateUrl: 'myModalContent.html',
+      controller: ModalInstanceCtrl,
+      size: size,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+};
+
 
 app.factory('Reminders', function($http){
     var URL_BASE = host+'/reminders';
@@ -40,6 +82,11 @@ app.factory('Reminders', function($http){
       };
 
     remindersService.save = function(data){
+      return $http.put(URL_BASE+'/'+data.id+'.json', data);
+    };
+
+    remindersService.complete = function(data){
+      data.completed = true;
       return $http.put(URL_BASE+'/'+data.id+'.json', data);
     };
 
@@ -78,6 +125,7 @@ app.factory('Auth', function($http){
           $http.defaults.headers.common['auth-token'] = token.data;
           return token.data;
         }
+
       );
     };
 
@@ -91,7 +139,6 @@ app.factory('Auth', function($http){
         }
       );
     };
-
     return service;
   });
 
@@ -119,19 +166,17 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
       };
 
     $scope.login = function(){
-        console.log($scope.credentials);
         Auth.login($scope.credentials)
         .then(
         function(data) {
-          console.log(data);
           $scope.flash = 'Kirjautuminen onnistui!';
           $scope.loginVisible =false;
           $scope.registrationVisible = false;
         },function(data) {
           $scope.flash = 'Kirjautumisessa häikkää, uutta matoa koukkuun..';
-          console.log(data);
         }
       );
+        
         $scope.credentials = {};
       };
 
@@ -143,12 +188,10 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
         Registration.register($scope.details).then(
         function(data, status, headers, config) {
           $scope.registrations.push(data);
-          console.log(data);
           $scope.flash = 'Rekisteröinti onnistui, nyt voit kirjautua sisään.';
           $scope.registrationVisible =false;
         },function(data) {
           $scope.flash = 'Ei onnistunut';
-          console.log(data);
         }
       );
         $scope.details = {};
@@ -158,13 +201,11 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
 
     Reminders.all().success( function(data, status, headers, config) {
         $scope.reminders = data;
-        console.log(data);
       });
 
     $scope.createReminder = function() {
         Reminders.create($scope.reminder).success(function(data, status, headers, config) {
           $scope.reminders.push(data);
-          console.log(data);
         });
 
         $scope.flash = 'Luonti onnistui!';
@@ -182,9 +223,13 @@ app.controller('MainCtrl', function ($scope, Reminders, Auth, Registration) {
 
     $scope.saveReminder = function(reminder) {
         Reminders.save(reminder).success(function(data, status, headers, config){
-          console.log(reminder);
-          $scope.reminders.push(data);
           $scope.flash = 'Muokkaus onnistui!';
+        });
+      };
+
+    $scope.completeReminder = function(reminder) {
+        Reminders.complete(reminder).success(function(data, status, headers, config){
+          $scope.flash = 'Tehtävä hoidettu!';
         });
       };
 

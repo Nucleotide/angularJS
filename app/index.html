@@ -48,17 +48,19 @@
               </p>
             
 
-              <form ng-show="infoVisible" role="form">
+              <form ng-show="infoVisible" role="form" name="editReminderForm">
                 <div class="form-group">
-                  <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
+                  <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä" required></input> 
                 </div>
                 <div class="form-group">
-                  <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)"/></input> 
+                  <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)" 
+                  required min="0" max="10"></input> 
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
+                  <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus" required></textarea>
                 </div>
-                <button class="btn btn-primary" ng-click="saveReminder(reminder)">Tallenna muutokset</button>
+                <button class="btn btn-primary" ng-click="saveReminder(reminder)" ng-disabled="editReminderForm.$invalid">
+                Tallenna muutokset</button>
               </form>
             </div>
 
@@ -83,35 +85,59 @@
       <div class="col-md-4">
         <h2>Työkalut</h2>
 
+        <div ng-controller="ModalDemoCtrl">
+          <script type="text/ng-template" id="myModalContent.html">
+              <div class="modal-header">
+                  <h3 class="modal-title">Suuri Hieno Modal</h3>
+              </div>
+              <div class="modal-body">
+                  <p>Kirjaudu sisään niin pääset tekemään jotain muutakin kuin ihailemaan Angularin logoa.</p>
+                  <p>Jos ei ole tunnuksia, tee ne.</p>
+                  <p>Kun syötät tietoja, tarkista mitä syötät muuten lomakkeet eivät anna sinun tallentaa tietoja.</p>
+                  <p>Bugeja on, sori...</p>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-primary" ng-click="ok()">OK</button>
+                  <button class="btn btn-warning" ng-click="cancel()">En tajua</button>
+              </div>
+          </script>
+
+          <button ng-hide="loggedIn.status" class="btn btn-primary" ng-click="open()">Ohjeet</button>
+
+        </div>
+
+        <br>
+
         <form class="form-group" ng-hide="loggedIn.status">
           <button class="btn btn-primary" ng-click="loginHide()" ng-hide="loginVisible">Kirjaudu</button>
           <button class="btn btn-primary" ng-click="registrationHide()" ng-hide="registrationVisible">Rekisteröidy</button>
         </form>      
 
-        <form ng-show="loginVisible" role="form">
+        <form ng-show="loginVisible" role="form" name="loginForm">
           <div class="form-group">
-            <input class="form-control" type="text" ng-model="credentials.user" placeholder="Käyttäjätunnus"/></input> 
+            <input class="form-control" type="text" ng-model="credentials.user" placeholder="Käyttäjätunnus" required/></input> 
           </div>
           <div class="form-group">
-            <input class="form-control" type="password" ng-model="credentials.password" placeholder="Salasana"/></input>
+            <input class="form-control" type="password" ng-model="credentials.password" placeholder="Salasana" required/></input>
           </div>
-          <button class="btn btn-primary" ng-click="login()">Kirjaudu</button>
+          <button class="btn btn-primary" ng-click="login()" ng-disabled="loginForm.$invalid">Kirjaudu</button>
           <button class="btn btn-danger" ng-click="loginVisible=!loginVisible">Peruuta</button>
         </form>
 
         <br>
 
-        <form ng-show="registrationVisible" role="form">
+        <form ng-show="registrationVisible" role="form" name="registrationForm">
           <div class="form-group">
-            <input class="form-control" type="text" ng-model="details.user" placeholder="Käyttäjätunnus"/></input> 
+            <input class="form-control" type="text" ng-model="details.user" placeholder="Käyttäjätunnus" required/></input> 
           </div>
           <div class="form-group">
-            <input class="form-control" type="password" ng-model="details.password" placeholder="Salasana"/></input>
+            <input class="form-control" type="password" ng-model="details.password" placeholder="Salasana" required/></input>
           </div>
           <div class="form-group">
-            <input class="form-control" type="password" ng-model="details.password_confirmation" placeholder="Salasana uudestaan"/></input>
+            <input class="form-control" type="password" ng-model="details.password_confirmation" placeholder="Salasana uudestaan" 
+            required/></input>
           </div>
-          <button class="btn btn-primary" ng-click="register()">Rekisteröidy</button>
+          <button class="btn btn-primary" ng-click="register()" ng-disabled="registrationForm.$invalid">Rekisteröidy</button>
           <button class="btn btn-danger" ng-click="registrationVisible=!registrationVisible">Peruuta</button>
         </form>
 
@@ -129,20 +155,18 @@
 
         <br>
 
-        <h3 ng-show="!loggedIn.status">Kirjaudu sisään ja pääset Crudaamaan</h3>
-
-
-        <form ng-show="formVisible" role="form">
+        <form ng-show="formVisible" role="form" name="newReminderForm">
           <div class="form-group">
-            <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä"/></input> 
+            <input class="form-control" type="text" ng-model="reminder.name" placeholder="Tehtävä" required></input> 
           </div>
           <div class="form-group">
-            <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)"/></input> 
+            <input class="form-control" type="number" ng-model="reminder.priority" placeholder="Tärkeys (luku 1-10)"
+            required min="0" max="10"></input> 
           </div>
           <div class="form-group">
-            <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus"></textarea>
+            <textarea class="form-control" rows="3" ng-model="reminder.description" placeholder="Kuvaus" required></textarea>
           </div>
-          <button class="btn btn-primary" ng-click="createReminder()">Lisää tehtävä</button>
+          <button class="btn btn-primary" ng-click="createReminder()" ng-disabled="newReminderForm.$invalid">Lisää tehtävä</button>
           <button class="btn btn-danger" ng-click="formVisible=!formVisible">Peruuta</button>
         </form>
 
